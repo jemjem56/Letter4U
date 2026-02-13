@@ -33,7 +33,39 @@
             background: linear-gradient(135deg, var(--cream) 0%, var(--blush-pink) 50%, var(--warm-peach) 100%);
             overflow-x: hidden;
             line-height: 1.6;
+            cursor: none;
         }
+
+       .heart-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: red;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Create heart shape using pseudo elements */
+.heart-cursor::before,
+.heart-cursor::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 50%;
+}
+
+.heart-cursor::before {
+  top: -10px;
+  left: 0;
+}
+
+.heart-cursor::after {
+  left: 10px;
+  top: 0;
+}
 
         /* Floating hearts animation */
         .hearts-container {
@@ -866,6 +898,7 @@
             <p class="final-text">I love you, always and forever.</p>
         </section>
     </div>
+    <div class="heart-cursor"></div>
 
     <script>
         // Create floating hearts, petals, and sparkles
@@ -1025,6 +1058,29 @@
                 }
             });
         });
+        const cursor = document.querySelector(".heart-cursor");
+
+let mouseX = 0;
+let mouseY = 0;
+let posX = 0;
+let posY = 0;
+
+document.addEventListener("mousemove", (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+function animate() {
+  posX += (mouseX - posX) * 0.15;
+  posY += (mouseY - posY) * 0.15;
+
+  cursor.style.left = posX + "px";
+  cursor.style.top = posY + "px";
+
+  requestAnimationFrame(animate);
+}
+
+animate();
     </script>
 </body>
 </html>
